@@ -17,6 +17,7 @@ from code.models.model import GVGNet_KD
 from code.models.gaze_teacher import GazeModel_Teacher
 from code.models.gaze_student import GazeModel_Student, SimKD
 
+# change test
 
 # 计算头部图像的二值图（224，224）
 def get_head_box_channel(x_min, y_min, x_max, y_max, width, height, resolution):
