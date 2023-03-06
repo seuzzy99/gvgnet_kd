@@ -1,0 +1,41 @@
+env:
+  deterministic: True
+
+train:
+  output_dir: "./output"
+  batch_size: 2
+  num_workers: 0
+  epochs: 5
+  warmup_epochs: 1
+  base_lr: 0.001
+  warmup_lr: 0.00001
+  min_lr: 0.000001
+  scheduler:
+    name: "cosine"
+    decay_epochs: [30,35,40]
+    lr_decay_rate: 0.2
+  clip_grad_norm: 0.15
+  log_period: 100
+  save_period: 1
+  log_image: False
+
+optim:
+  lr: 0.0001
+  eps: 1e-9
+  betas: [0.9,0.98]
+
+dataset:
+  anns_path:
+    train: './data/anns/train.txt'
+    test: './data/anns/test.txt'
+  img_path: "./data/images"
+  mask_path: "./data/masks"
+  input_shape: [416,416]
+  input_gaze_shape: 224
+  output_gaze_shape: 64
+  max_token_length: 3
+
+model:
+  visual_pretrained: True
+  visual_backbone_path: "./data/weights/cspdarknet_coco.pth"
+  gaze_model_path: "./data/weights/model_teacher.pt"
