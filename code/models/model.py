@@ -1,4 +1,5 @@
 import torch.nn as nn
+import numpy as np
 from code.models.cspdarknet import CspDarkNet
 from code.models.lstm_sa import LSTM_SA
 from code.models.mcn_heads import MCNhead
@@ -58,6 +59,9 @@ class GVGNet_KD(nn.Module):
 
         x[-1] = self.fusion_manner(x[-1], y['flat_lang_feat'], gaze_feat)
         bot_feats, mid_feats, top_feats = self.multi_scale_manner(x)
+
+        # bot_feats = bot_feats.cpu().numpy()
+        # np.save("bot_feats.npy", bot_feats)
 
         bot_feats, seg_map, seg_attn = self.seg_garan(y['flat_lang_feat'], bot_feats)
         top_feats, det_map, det_attn = self.det_garan(y['flat_lang_feat'], top_feats)

@@ -75,7 +75,7 @@ def train_one_epoch(cfg, module_list, optimizer, scheduler, data_loader, writer,
         trans_feat_s, trans_feat_t, heatmap_s = model_kd(fusion_feat_s, fusion_feat_t, cls_t)
 
         heatmap_s = heatmap_s.squeeze(1)
-        loss_kd = criterion_kd(trans_feat_s, trans_feat_t) * 100
+        loss_kd = criterion_kd(trans_feat_s, trans_feat_t) * 10
         loss_cls = criterion_cls(heatmap_s, gaze_label) * 1000
 
         # MCN部分

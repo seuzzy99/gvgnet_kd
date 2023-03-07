@@ -193,7 +193,7 @@ if __name__ == '__main__':
     model_t.load_state_dict(torch.load(teacher_path)['model'])
     print('Teacher model Done !')
 
-    gvg_path = "./output/det_best.pth"
+    gvg_path = "./output/last_checkpoint.pth"
     model_s = GazeModel_Student()
     model_kd = SimKD(s_n=256, t_n=512, factor=2)
     model_s.load_state_dict(torch.load(gvg_path)['gaze_s_state'])
@@ -217,16 +217,41 @@ if __name__ == '__main__':
     for module in module_list:
         module.eval()
 
+    anns = open("./data/anns/test.txt", 'r')
+    lines = anns.readlines()
+
+    line = lines[90]
+
     with torch.no_grad():
         start = time.time()
-
+        line_data = line.split()
         # 数据读取
-        image_path = "./data/images/test/9.png"
+        image_path = "./data/images/{}".format(line_data[0])
+        print(image_path)
         img_rgb = cv2.imread(image_path, cv2.IMREAD_UNCHANGED)
         image_gaze = Image.open(os.path.join(image_path))
         image_gaze = image_gaze.convert('RGB')
-        head = [259, 45, 378, 167]
-        sent = "glue stick"
+        head = line_data[2].split(',')
+        head = [int(head[0]), int(head[1]), int(head[2]), int(head[3])]
+
+        stop = len(line_data)
+        for s in range(1, len(line_data)):
+            if (line_data[s] == '~'):
+                stop = s
+                break
+        sentences = []
+        sent_stop = stop + 1
+        for s in range(stop + 1, len(line_data)):
+            if line_data[s] == '~':
+                sentences.append(line_data[sent_stop:s])
+                sent_stop = s + 1
+        sentences.append(line_data[sent_stop:len(line_data)])
+        choose_index = np.random.choice(len(sentences))
+        sent = sentences[choose_index]
+
+        text = ""
+        for s in range(0, len(sent)):
+            text = text + sent[s] + " "
 
         # 文本数据处理
         max_token = 3
@@ -273,7 +298,7 @@ if __name__ == '__main__':
         left, top, right, bottom, _ = (pred_box_vis[0]).astype('int32')
         colors = [(255, 0, 0), (0, 255, 0), (0, 191, 255)]
         cv2.rectangle(ori_img, (left, top), (right, bottom), (0,0,255), 3)
-        cv2.putText(ori_img, sent, (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[2], 1)
+        cv2.putText(ori_img, text, (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[2], 1)
 
         # cv2.imwrite("../output/det_real/{}.png".format(cnt), ori_img)
 
