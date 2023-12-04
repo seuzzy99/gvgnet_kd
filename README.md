@@ -11,6 +11,7 @@ The official PyTorch implementation of the paper "Gaze-assisted Visual Grounding
 * A new tabletop objects dataset with both human gaze and under-specified referring expressions is established, namely TOD-underRef. The experimental results on the dataset demonstrate that our method outperforms the state-of-the-art methods in REC and RES accuracy. Real-world robotic grasping experiment further validates the effectiveness of our method in referred object grasping tasks with referring ambiguity.
 
 ## Environment
+```
 pytorch==1.11.0
 torchvision==0.12.0
 opencv-python==4.5.5.64
@@ -18,6 +19,7 @@ pillow
 numpy
 tensorboardX
 tqdm
+```
 
 ## Training and Evaluation
 The code will be released upon acceptance.
