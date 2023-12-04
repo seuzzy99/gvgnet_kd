@@ -1,6 +1,8 @@
 # GVGNet_KD
 The official PyTorch implementation of the paper "Gaze-assisted Visual Grounding via Knowledge Distillation for Referred Object Grasping with Under-specified Object Referring".
 
+Zhuoyang Zhang, Kun Qian, Bo Zhou, Fang Fang, and Xudong Ma.
+
 <p align="center">
   <img src="framework.png" width="1000">
 </p>
@@ -22,4 +24,4 @@ tqdm
 ```
 
 ## Training and Evaluation
-The code will be released upon acceptance.
+The code will be available upon acceptance.
